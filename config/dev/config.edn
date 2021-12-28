@@ -1,0 +1,6 @@
+{
+ :db-type "mysql"
+ :db-name "task"
+ :db-user "lucas"
+ :db-password "123456"
+ }
