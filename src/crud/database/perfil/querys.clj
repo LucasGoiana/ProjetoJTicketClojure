@@ -12,6 +12,9 @@
 ; Buscar Lista de Perfis
 (defn ler [request] (read-as-local) (query/query ds ["select * from perfil"]))
 ;
+(defn lerPorId [response]  (query/get-by-id ds :perfil  response :idPerfil {}))
+
+;
 ;
 ;(query/update! ds :fruit {:name "Apple" :appearance "rosy" :cost 24}  { :name "Orange"})
 ;
