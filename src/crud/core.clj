@@ -8,7 +8,8 @@
 
 (def routes (route/expand-routes
               #{["/perfil" :post criar-perfil :route-name :criar-perfil],
-                ["/perfil" :get ler-perfis :route-name :ler-perfil]}))
+                ["/perfil" :get ler-perfis :route-name :ler-perfis],
+                ["/perfil/:id" :get ler-perfil :route-name :ler-perfil]}))
 
 (def service-map
   (-> {::http/routes routes
