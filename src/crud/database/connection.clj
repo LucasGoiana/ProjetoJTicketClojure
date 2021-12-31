@@ -1,4 +1,4 @@
-(ns crud.connection.connection
+(ns crud.database.connection
   (:require [next.jdbc :as jdbc],[config.core :refer [env]])
   (:gen-class))
 
