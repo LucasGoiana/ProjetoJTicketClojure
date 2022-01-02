@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: org.clj-commons/digest:1.4.100">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/clj-commons/digest/1.4.100/digest-1.4.100.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

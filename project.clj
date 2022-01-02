@@ -11,7 +11,8 @@
                  [io.pedestal/pedestal.route "0.5.7"]
                  [io.pedestal/pedestal.jetty "0.5.7"]
                  [org.clojure/data.json "0.2.6"]
-                 [org.slf4j/slf4j-simple "1.7.28"]]
+                 [org.slf4j/slf4j-simple "1.7.28"],
+                 [org.clj-commons/digest "1.4.100"]]
   :profiles {:prod {:resource-paths ["config/prod"]}
              :dev  {:resource-paths ["config/dev"]}}
   :main edn-config-test.core

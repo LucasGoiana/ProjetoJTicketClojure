@@ -1,15 +1,12 @@
 (ns crud.core
-  (:use crud.funcoes.perfil.funcoes),
+  (:use crud.routes.routes)
   (:require
     [io.pedestal.http.route :as route],
     [io.pedestal.http.body-params :as body-params],
-    [io.pedestal.http :as http])
-  )
+    [io.pedestal.http :as http]))
 
-(def routes (route/expand-routes
-              #{["/perfil" :post criar-perfil :route-name :criar-perfil],
-                ["/perfil" :get ler-perfis :route-name :ler-perfis],
-                ["/perfil/:id" :get ler-perfil :route-name :ler-perfil]}))
+(def routes (route/expand-routes general-routes))
+
 
 (def service-map
   (-> {::http/routes routes
