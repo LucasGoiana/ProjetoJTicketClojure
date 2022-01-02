@@ -1,18 +1,18 @@
-(ns crud.database.perfil.querys
+(ns crud.database.perfil.queries
   (:use
     [crud.database.connection] [next.jdbc.date-time]),
   (:require
     [next.jdbc.sql :as query]
     ))
-(defn now [] )
+
 ; Inserir um Perfil
 (defn inserir [nome] (query/insert! ds :perfil {:Nome nome :dataModifcacao (java.util.Date.) }) )
-;(query/query ds [])
 
 ; Buscar Lista de Perfis
 (defn ler [request] (read-as-local) (query/query ds ["select * from perfil"]))
-;
-(defn lerPorId [response]  (query/get-by-id ds :perfil  response :idPerfil {}))
+
+; Buscar um perfil pelo id
+(defn lerPorId [id]  (query/get-by-id ds :perfil  id :idPerfil {}))
 
 ;
 ;
