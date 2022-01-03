@@ -9,4 +9,7 @@
 
 
       ["/usuario" :post criar-usuario :route-name :criar-usuario],
+      ["/usuario/:id" :put editar-usuario :route-name :editar-usuario],
+      ["/usuario" :get ler-usuarios :route-name :ler-usuarios],
+      ;["/usuario/:id" :get ler-usuario :route-name :ler-usuario]
       })

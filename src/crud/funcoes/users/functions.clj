@@ -18,3 +18,21 @@
       {:status 201
        :headers header-modified
        :body (make-json {:msg "Cadastrado com Sucesso!"})})))))))
+
+(defn editar-usuario [request]
+  (let [nm (:json-params request)],
+    (let [id (get-in request [:path-params :id])],
+      (let [name (nm :name)],
+        (let [email (nm :email)],
+          (let [password (digest/md5 (nm :password)) ],
+            (let [slug name],
+              (atualizar id name email password slug)
+              {:status 200
+               :headers header-modified
+               :body (make-json {:msg "Editado com Sucesso!"})})))))))
+
+(defn  ler-usuarios [request]
+  (let [response (ler [request])]
+    {:status 200
+     :headers header-modified
+     :body (json/write-str response )}))
