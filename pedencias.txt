@@ -5,4 +5,6 @@
 - fazer validações;
 - fazer excepetions;
 - fazer transforsmes de dados para segurança;
-- verificar git ignore;git
+- verificar git ignore;git7
+
+teste
