@@ -1,0 +1,8 @@
+- ajustar nome de todas as variaves, por tudo em ingles nomeclatura do bd colocar somente em camelcase
+- ajustar nome da coluna datamodificacao na perfil e verificar em outras tableas
+- ajustar collections e colocar aquivo no projeto
+- funções gets estãoo passando parametros sem necessidade
+- fazer validações;
+- fazer excepetions;
+- fazer transforsmes de dados para segurança;
+- verificar git ignore;
