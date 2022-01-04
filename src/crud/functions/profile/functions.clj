@@ -7,21 +7,21 @@
 
 (defn make-profile [request]
     (let [nm (:json-params request)],
-       (let [nome-perfil (nm :nome)]
-         (inserir nome-perfil)
+       (let [name-profile (nm :name)]
+         (make name-profile)
          {:status 201
           :headers header-modified
-          :body (make-json {:msg "Cadastrado com Sucesso!"}) })))
+          :body (make-json {:msg "Cadastrado com Sucesso!"})})))
 
 (defn read-profiles [request]
-    (let [response (ler request)]
+    (let [response (readAll request)]
        {:status 200
         :headers header-modified
         :body (json/write-str response )}))
 
 (defn read-profile-by-id [request]
   (println header-modified)
-  (let [response  (lerPorId (get-in request [:path-params :id]))]
+  (let [response  (readById (get-in request [:path-params :id]))]
       {:status 200
         :headers header-modified
            :body (json/write-str response )}))

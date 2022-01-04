@@ -6,10 +6,10 @@
     ))
 
 ; Inserir um Perfil
-(defn inserir [nome] (query/insert! ds :perfil {:Nome nome :dataModifcacao (java.util.Date.)}))
+(defn make [nome] (query/insert! ds :perfil {:Nome nome :dataModifcacao (java.util.Date.)}))
 
 ; Buscar Lista de Perfis
-(defn ler [request] (read-as-local) (query/query ds ["select * from perfil"]))
+(defn readAll [request] (read-as-local) (query/query ds ["select * from perfil"]))
 
 ; Buscar um perfil pelo id
-(defn lerPorId [id]  (query/get-by-id ds :perfil  id :idPerfil {}))
+(defn readById [id]  (query/get-by-id ds :perfil id :idPerfil {}))
