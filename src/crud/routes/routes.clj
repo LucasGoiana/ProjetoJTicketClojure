@@ -1,16 +1,24 @@
 (ns crud.routes.routes
-  (:use crud.funcoes.perfil.functions)
-  (:use crud.funcoes.users.functions))
+  (:use crud.functions.profile.functions)
+  (:use crud.functions.users.functions))
 
 (def general-routes
-    #{["/perfil" :post criar-perfil :route-name :criar-perfil],
-      ["/perfil" :get ler-perfis :route-name :ler-perfis],
-      ["/perfil/:id" :get ler-perfil :route-name :ler-perfil],
+    #{
+      ;Rotas Pertinentes a Perfil
+      ["/perfil" :post make-profile :route-name :criar-perfil],
+      ["/perfil" :get read-profiles :route-name :ler-perfis],
+      ["/perfil/:id" :get read-profile-by-id :route-name :ler-perfil],
 
+      ;Rotas Pertinentes a Usuário
+      ["/usuario" :post make-user :route-name :criar-usuario],
+      ["/usuario/:id" :put update-user :route-name :editar-usuario],
+      ["/usuario" :get read-users :route-name :ler-usuarios],
+      ["/usuario/:id" :get read-user-by-id :route-name :ler-usuario]
+      ["/usuario/:id" :delete delete-user-by-id :route-name :deletar-usuario]
 
-      ["/usuario" :post criar-usuario :route-name :criar-usuario],
-      ["/usuario/:id" :put editar-usuario :route-name :editar-usuario],
-      ["/usuario" :get ler-usuarios :route-name :ler-usuarios],
-      ["/usuario/:id" :get ler-usuario :route-name :ler-usuario]
-      ["/usuario/:id" :delete deletar-usuario :route-name :deletar-usuario]
+      ;Rotas Pertinentes a Status
+      ["/status" :post make-status :route-name :criar-perfil],
+      ["/status" :get read-status :route-name :ler-perfis],
+      ["/status/:id" :get read-status-by-id :route-name :ler-perfil],
+
       })

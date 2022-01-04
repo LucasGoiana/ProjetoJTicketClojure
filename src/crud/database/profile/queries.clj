@@ -1,4 +1,4 @@
-(ns crud.database.perfil.queries
+(ns crud.database.profile.queries
   (:use
     [crud.database.connection] [next.jdbc.date-time]),
   (:require

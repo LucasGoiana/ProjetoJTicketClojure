@@ -1,4 +1,4 @@
-(ns crud.funcoes.users.functions
+(ns crud.functions.users.functions
   (:use
     [crud.database.users.queries],
     [crud.helpers.helpers]),
@@ -7,7 +7,7 @@
     [clj-commons.digest :as digest],
     [config.core :refer [env]]))
 
-(defn criar-usuario [request]
+(defn make-user [request]
   (let [nm (:json-params request)],
      (let [id-profile (nm :idProfile)],
        (let [name (nm :name)],
@@ -19,7 +19,7 @@
        :headers header-modified
        :body (make-json {:msg "Cadastrado com Sucesso!"})})))))))
 
-(defn editar-usuario [request]
+(defn update-user [request]
   (let [nm (:json-params request)],
     (let [id (get-in request [:path-params :id])],
       (let [name (nm :name)],
@@ -31,13 +31,13 @@
                :headers header-modified
                :body (make-json {:msg "Editado com Sucesso!"})})))))))
 
-(defn  ler-usuarios [request]
+(defn  read-users [request]
   (let [response (ler [request])]
     {:status 200
      :headers header-modified
      :body (json/write-str response )}))
 
-(defn  ler-usuario [request]
+(defn  read-user-by-id [request]
   (let [id (get-in request [:path-params :id])],
     (let [response  (lerPorId id)]
     {:status 200
@@ -45,7 +45,7 @@
      :body (json/write-str response )})))
 
 
-(defn  deletar-usuario [request]
+(defn  delete-user-by-id [request]
   (let [id (get-in request [:path-params :id])],
       (deletar id)
       {:status 200
