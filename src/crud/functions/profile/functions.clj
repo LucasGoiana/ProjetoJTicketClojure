@@ -1,27 +1,27 @@
-(ns crud.funcoes.perfil.functions
+(ns crud.functions.profile.functions
   (:use
-    [crud.database.perfil.queries],
+    [crud.database.profile.queries],
     [crud.helpers.helpers]),
   (:require
     [clojure.data.json :as json]))
 
-(defn criar-perfil [request]
+(defn make-profile [request]
     (let [nm (:json-params request)],
-       (let [nome-perfil (nm :nome)]
-         (inserir nome-perfil)
+       (let [name-profile (nm :name)]
+         (make name-profile)
          {:status 201
           :headers header-modified
-          :body (make-json {:msg "Cadastrado com Sucesso!"}) })))
+          :body (make-json {:msg "Cadastrado com Sucesso!"})})))
 
-(defn ler-perfis [request]
-    (let [response (ler request)]
+(defn read-profiles [request]
+    (let [response (readAll request)]
        {:status 200
         :headers header-modified
         :body (json/write-str response )}))
 
-(defn ler-perfil [request]
+(defn read-profile-by-id [request]
   (println header-modified)
-  (let [response  (lerPorId (get-in request [:path-params :id]))]
+  (let [response  (readById (get-in request [:path-params :id]))]
       {:status 200
         :headers header-modified
            :body (json/write-str response )}))
