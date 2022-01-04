@@ -13,6 +13,3 @@
 
 ; Buscar um perfil pelo id
 (defn lerPorId [id]  (query/get-by-id ds :perfil  id :idPerfil {}))
-
-;
-;(query/delete! ds :fruit { :cost 24})

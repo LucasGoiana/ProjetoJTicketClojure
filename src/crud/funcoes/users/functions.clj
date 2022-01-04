@@ -36,3 +36,18 @@
     {:status 200
      :headers header-modified
      :body (json/write-str response )}))
+
+(defn  ler-usuario [request]
+  (let [id (get-in request [:path-params :id])],
+    (let [response  (lerPorId id)]
+    {:status 200
+     :headers header-modified
+     :body (json/write-str response )})))
+
+
+(defn  deletar-usuario [request]
+  (let [id (get-in request [:path-params :id])],
+      (deletar id)
+      {:status 200
+       :headers header-modified
+       :body (make-json {:msg "Usuário foi deletado com Sucesso!"})}))
