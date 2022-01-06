@@ -11,43 +11,46 @@
   (let [nm (:json-params request)],
     (let [idUser (nm :idUser)],
       (let [idStatus (nm :idStatus)],
-      (let [title (nm :title)],
-        (let [description (nm :description)],
-            (let [slug title],
-              (make idUser idStatus title description slug)
-              {:status 201
-               :headers header-modified
-               :body (make-json {:msg "Cadastrado com Sucesso!"})})))))))
+        (let [title (nm :title)],
+          (let [description (nm :description)],
+            (make idUser idStatus title description)
+              (let [slug (get-id-to-slug [request])],
+                (let [idTicket  (get-in (slug 0) [:ticket/idTicket])]
+                  (insert-slug idTicket (make-slug title idTicket) )
+                  {:status 201
+                   :headers header-modified
+                   :body (make-json {:msg "Cadastrado com Sucesso!"})}))))))))
 
-;(defn update-ticket [request]
-;  (let [nm (:json-params request)],
-;    (let [id (get-in request [:path-params :id])],
-;      (let [name (nm :name)],
-;        (let [email (nm :email)],
-;          (let [password (digest/md5 (nm :password)) ],
-;            (let [slug name],
-;              (update-by-id id name email password slug)
-;              {:status 200
-;               :headers header-modified
-;               :body (make-json {:msg "Editado com Sucesso!"})})))))))
-;
-;(defn  read-tickets [request]
-;  (let [response (readAll [request])]
-;    {:status 200
-;     :headers header-modified
-;     :body (json/write-str response )}))
-;
-;(defn  read-ticket-by-id [request]
-;  (let [id (get-in request [:path-params :id])],
-;    (let [response  (read-by-id id)]
-;      {:status 200
-;       :headers header-modified
-;       :body (json/write-str response )})))
-;
-;
-;(defn  delete-ticket-by-id [request]
-;  (let [id (get-in request [:path-params :id])],
-;    (delete id)
-;    {:status 200
-;     :headers header-modified
-;     :body (make-json {:msg "Usuário foi deletado com Sucesso!"})}))
+(defn update-ticket [request]
+  (let [nm (:json-params request)],
+    (let [id (get-in request [:path-params :id])],
+      (let [idUser (nm :idUser)],
+        (let [idStatus (nm :idStatus)],
+          (let [title (nm :title)],
+            (let [description (nm :description)],
+              (let [slug (make-slug title id)],
+                (update-by-id id idUser idStatus title description slug)
+                {:status 201
+                 :headers header-modified
+                 :body (make-json {:msg "Editado com Sucesso!"})}))))))))
+
+(defn  read-tickets [request]
+  (let [response (readAll [request])]
+    {:status 200
+     :headers header-modified
+     :body (json/write-str response )}))
+
+(defn  read-ticket-by-id [request]
+  (let [id (get-in request [:path-params :id])],
+    (let [response  (read-by-id id)]
+      {:status 200
+       :headers header-modified
+       :body (json/write-str response )})))
+
+
+(defn  delete-ticket-by-id [request]
+  (let [id (get-in request [:path-params :id])],
+    (delete id)
+    {:status 200
+     :headers header-modified
+     :body (make-json {:msg "Ticket foi deletado com Sucesso!"})}))

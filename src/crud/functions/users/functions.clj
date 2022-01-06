@@ -13,11 +13,13 @@
        (let [name (nm :name)],
          (let [email (nm :email)],
            (let [password (digest/md5 (nm :password)) ],
-             (let [slug name],
-      (make idProfile name email password slug)
+             (make idProfile name email password )
+             (let [slug (get-id-to-slug request)],
+               (let [idUsuario  (get-in (slug 0) [:usuario/idUsuario])]
+                (insert-slug idUsuario (make-slug name idUsuario ))
       {:status 201
        :headers header-modified
-       :body (make-json {:msg "Cadastrado com Sucesso!"})})))))))
+       :body (make-json {:msg "Cadastrado com Sucesso!"})}))))))))
 
 (defn update-user [request]
   (let [nm (:json-params request)],
@@ -25,7 +27,7 @@
       (let [name (nm :name)],
         (let [email (nm :email)],
           (let [password (digest/md5 (nm :password)) ],
-            (let [slug name],
+            (let [slug (make-slug name id)],
               (update-by-id id name email password slug)
               {:status 200
                :headers header-modified
@@ -47,6 +49,7 @@
 
 (defn  delete-user-by-id [request]
   (let [id (get-in request [:path-params :id])],
+      (deleteTicket id)
       (delete id)
       {:status 200
        :headers header-modified
