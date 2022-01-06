@@ -4,7 +4,7 @@
         crud.functions.status.functions,
         crud.functions.tickets.functions))
 
-(def general-routes
+(def generalRoutes
     #{
       ;Rotas Pertinentes a Perfil
       ["/perfil" :post make-profile :route-name :make-profile ],
