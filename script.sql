@@ -15,32 +15,32 @@ CREATE SCHEMA IF NOT EXISTS `ProjetoJTicket` DEFAULT CHARACTER SET latin1 ;
 USE `ProjetoJTicket` ;
 
 -- -----------------------------------------------------
--- Table `ProjetoJTicket`.`perfil`
+-- Table `ProjetoJTicket`.`profile`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ProjetoJTicket`.`perfil` (
-  `idPerfil` INT NOT NULL AUTO_INCREMENT,
-  `Nome` VARCHAR(45) NOT NULL,
-  `DataModifcacao` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idPerfil`))
+CREATE TABLE IF NOT EXISTS `ProjetoJTicket`.`profile` (
+  `idProfile` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `modifiedDate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idProfile`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ProjetoJTicket`.`usuario`
+-- Table `ProjetoJTicket`.`user`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ProjetoJTicket`.`usuario` (
-  `idUsuario` INT NOT NULL AUTO_INCREMENT,
-  `idPerfil` INT NOT NULL,
-  `Nome` VARCHAR(45) NOT NULL,
-  `Email` VARCHAR(45) NOT NULL,
-  `Senha` VARCHAR(45) NOT NULL,
-  `Slug` VARCHAR(60) NOT NULL,
-  `DataModficacao` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`idUsuario`, `idPerfil`),
-  INDEX `fk_usuario_perfil1` (`idPerfil` ASC) VISIBLE,
-  CONSTRAINT `fk_usuario_perfil1`
-    FOREIGN KEY (`idPerfil`)
-    REFERENCES `ProjetoJTicket`.`perfil` (`idPerfil`)
+CREATE TABLE IF NOT EXISTS `ProjetoJTicket`.`user` (
+  `idUser` INT NOT NULL AUTO_INCREMENT,
+  `idProfile` INT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `slug` VARCHAR(60),
+  `modifiedDate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idUser`, `idProfile`),
+  INDEX `fk_user_profile1` (`idProfile` ASC) VISIBLE,
+  CONSTRAINT `fk_user_profile1`
+    FOREIGN KEY (`idProfile`)
+    REFERENCES `ProjetoJTicket`.`profile` (`idProfile`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -51,8 +51,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ProjetoJTicket`.`status` (
   `idStatus` INT NOT NULL AUTO_INCREMENT,
-  `Nome` VARCHAR(45) NOT NULL,
-  `DataModficacao` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `name` VARCHAR(45) NOT NULL,
+  `modifiedDate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`idStatus`))
 ENGINE = InnoDB;
 
@@ -62,24 +62,24 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ProjetoJTicket`.`ticket` (
   `idTicket` INT NOT NULL AUTO_INCREMENT,
-  `idUsuario` INT NOT NULL,
+  `idUser` INT NOT NULL,
   `idStatus` INT NOT NULL,
-  `Titulo` VARCHAR(90) NOT NULL,
-  `Descricao` VARCHAR(255) NOT NULL,
-  `Slug` VARCHAR(60) NOT NULL,
-  `DataCriacao` DATETIME NOT NULL,
-  `DataModificacao` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`idTicket`, `idUsuario`, `idStatus`),
+  `title` VARCHAR(90) NOT NULL,
+  `description` VARCHAR(255) NOT NULL,
+  `slug` VARCHAR(60),
+  `createdDate` DATETIME  NOT NULL,
+  `modifiedDate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
+  PRIMARY KEY (`idTicket`, `idUser`, `idStatus`),
   INDEX `fk_ticket_status` (`idStatus` ASC) VISIBLE,
-  INDEX `fk_ticket_usuario1` (`idUsuario` ASC) VISIBLE,
+  INDEX `fk_ticket_user1` (`idUser` ASC) VISIBLE,
   CONSTRAINT `fk_ticket_status`
     FOREIGN KEY (`idStatus`)
     REFERENCES `ProjetoJTicket`.`status` (`idStatus`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ticket_usuario1`
-    FOREIGN KEY (`idUsuario`)
-    REFERENCES `ProjetoJTicket`.`usuario` (`idUsuario`)
+  CONSTRAINT `fk_ticket_user1`
+    FOREIGN KEY (`idUser`)
+    REFERENCES `ProjetoJTicket`.`user` (`idUser`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

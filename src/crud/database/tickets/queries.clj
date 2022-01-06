@@ -8,24 +8,24 @@
 
 ; Inserir Ticket
 (defn make [idUser idStatus title description ] (query/insert! ds :ticket
-              {:idUsuario idUser :idStatus idStatus :Titulo title :Descricao description :DataCriacao (java.util.Date.) :DataModificacao (java.util.Date.)}))
+              {:idUser idUser :idStatus idStatus :title title :description description :createdDate (java.util.Date.)}))
 
 ;Atualizar Ticket pelo ID
 (defn update-by-id [id idUser idStatus title description slug]  (query/update! ds :ticket
-             {:idUsuario idUser :idStatus idStatus :Titulo title :Descricao description :Slug slug :DataModificacao (java.util.Date.)}{:idTicket id }))
+             {:idUser idUser :idStatus idStatus :title title :description description :slug slug}{:idTicket id }))
 
 ; Pega o ultimo ticket para o slug
 (defn get-id-to-slug [request] (read-as-local) (query/query ds ["SELECT idTicket FROM ticket order by idTicket desc limit 1"]))
 
 ; Inserir o slug
 (defn insert-slug [id slug]  (query/update! ds :ticket
-    { :Slug slug :DataModificacao (java.util.Date.)}{:idTicket id }))
+    { :slug slug }{:idTicket id }))
 
 ; Buscar Lista de Tickets
-(defn readAll [request] (read-as-local) (query/query ds ["SELECT t.idTicket, t.Titulo, t.descricao, t.DataModificacao, u.Nome NomeUsuario, s.Nome NomeStatus FROM  ticket t INNER JOIN usuario u ON t.idUsuario = u.idUsuario INNER JOIN status s ON t.idStatus = s.idStatus "]))
+(defn readAll [request] (read-as-local) (query/query ds ["SELECT t.idTicket, t.title, t.description,  DATE_FORMAT(t.modifiedDate, \"%Y-%m-%d %h:%s:%i\") modifiedDate, u.name user, s.name status FROM  ticket t INNER JOIN user u ON t.idUser = u.idUser INNER JOIN status s ON t.idStatus = s.idStatus "]))
 
 ; Buscar um Ticket pelo id
-(defn read-by-id [id]  (jdbc/execute-one! ds ["SELECT t.idTicket, t.Titulo, t.descricao, t.DataModificacao, u.Nome NomeUsuario, s.Nome NomeStatus FROM  ticket t INNER JOIN usuario u ON t.idUsuario = u.idUsuario INNER JOIN status s ON t.idStatus = s.idStatus WHERE t.idTicket = ?  " id]))
+(defn read-by-id [id]  (jdbc/execute-one! ds ["SELECT t.idTicket, t.title, t.description,  DATE_FORMAT(t.modifiedDate, \"%Y-%m-%d %h:%s:%i\") modifiedDate, u.name user, s.name status FROM  ticket t INNER JOIN user u ON t.idUser = u.idUser INNER JOIN status s ON t.idStatus = s.idStatus  WHERE t.idTicket = ?  " id]))
 
 ;Deletar Ticket pelo ID
 (defn delete [id]  (query/delete! ds :ticket { :idTicket id}))

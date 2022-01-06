@@ -17,9 +17,9 @@
              (let [slug (get-id-to-slug request)],
                (let [idUsuario  (get-in (slug 0) [:usuario/idUsuario])]
                 (insert-slug idUsuario (make-slug name idUsuario ))
-      {:status 201
-       :headers header-modified
-       :body (make-json {:msg "Cadastrado com Sucesso!"})}))))))))
+      {:status  201
+       :headers headerModified
+       :body    (make-json {:msg "Cadastrado com Sucesso!"})}))))))))
 
 (defn update-user [request]
   (let [nm (:json-params request)],
@@ -29,28 +29,28 @@
           (let [password (digest/md5 (nm :password)) ],
             (let [slug (make-slug name id)],
               (update-by-id id name email password slug)
-              {:status 200
-               :headers header-modified
-               :body (make-json {:msg "Editado com Sucesso!"})})))))))
+              {:status  200
+               :headers headerModified
+               :body    (make-json {:msg "Editado com Sucesso!"})})))))))
 
 (defn  read-users [request]
   (let [response (readAll [request])]
-    {:status 200
-     :headers header-modified
-     :body (json/write-str response )}))
+    {:status  200
+     :headers headerModified
+     :body    (json/write-str response )}))
 
 (defn  read-user-by-id [request]
   (let [id (get-in request [:path-params :id])],
     (let [response  (read-by-id id)]
-    {:status 200
-     :headers header-modified
-     :body (json/write-str response )})))
+    {:status  200
+     :headers headerModified
+     :body    (json/write-str response )})))
 
 
 (defn  delete-user-by-id [request]
   (let [id (get-in request [:path-params :id])],
       (deleteTicket id)
       (delete id)
-      {:status 200
-       :headers header-modified
-       :body (make-json {:msg "Usuário foi deletado com Sucesso!"})}))
+      {:status  200
+       :headers headerModified
+       :body    (make-json {:msg "Usuário foi deletado com Sucesso!"})}))

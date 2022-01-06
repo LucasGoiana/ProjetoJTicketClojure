@@ -1,15 +1,17 @@
 (ns crud.database.profile.queries
   (:use
-    [crud.database.connection] [next.jdbc.date-time]),
+    [crud.database.connection],
+    [next.jdbc.date-time]),
   (:require
-    [next.jdbc.sql :as query]
+    [next.jdbc.sql :as query],
+    [next.jdbc :as jdbc]
     ))
 
-; Inserir um Perfil
-(defn make [nome] (query/insert! ds :perfil {:Nome nome :dataModifcacao (java.util.Date.)}))
+; Inserir um Profile
+(defn make [name] (query/insert! ds :profile {:name name}))
 
-; Buscar Lista de Perfis
-(defn readAll [request] (read-as-local) (query/query ds ["select * from perfil"]))
+; Buscar Lista de Profiles
+(defn readAll [request] (read-as-local) (query/query ds ["select idProfile, name, DATE_FORMAT(modifiedDate, \"%Y-%m-%d %h:%s:%i\") modifiedDate from profile"]))
 
-; Buscar um perfil pelo id
-(defn readById [id]  (query/get-by-id ds :perfil id :idPerfil {}))
+; Buscar um Profile pelo id
+(defn readById [id]  (jdbc/execute-one! ds ["select idProfile, name, DATE_FORMAT(modifiedDate, \"%Y-%m-%d %h:%s:%i\") modifiedDate from profile where idProfile = ?" id]))
