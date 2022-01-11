@@ -29,7 +29,11 @@
 (defn read-by-id [id]  (jdbc/execute-one! ds ["SELECT u.idUser,  u.name, u.email, u.password, p.name as profile FROM user u INNER JOIN profile p ON u.idProfile = p.idProfile where u.idUser = ? "  id]))
 
 ;Deletar Ticket pelo ID
-(defn deleteTicket [id]  (query/delete! ds :ticket { :idUser id}))
+(defn delete-ticket [id]  (query/delete! ds :ticket { :idUser id}))
 
 ;Deletar Usuário pelo ID
 (defn delete [id]  (query/delete! ds :user { :idUser id}))
+
+;Fazer login
+
+(defn login [email password] (jdbc/execute-one! ds ["SELECT u.idUser,  u.idProfile FROM user u where u.email = ? and u.password = ? "  email password]))

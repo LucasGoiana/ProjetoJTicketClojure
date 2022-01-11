@@ -2,7 +2,8 @@
   (:use crud.functions.profile.functions,
         crud.functions.users.functions,
         crud.functions.status.functions,
-        crud.functions.tickets.functions))
+        crud.functions.tickets.functions,
+        crud.functions.login.functions))
 
 (def generalRoutes
     #{
@@ -29,5 +30,8 @@
       ["/ticket" :get read-tickets :route-name :read-tickets],
       ["/ticket/:id" :get read-ticket-by-id :route-name :read-ticket-by-id]
       ["/ticket/:id" :delete delete-ticket-by-id :route-name :delete-ticket-by-id]
+
+      ;Login
+      ["/login" :post make-login :route-name :make-login],
 
       })
