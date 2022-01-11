@@ -13,7 +13,8 @@
                  [org.clojure/data.json "0.2.6"]
                  [org.slf4j/slf4j-simple "1.7.28"],
                  [org.clj-commons/digest "1.4.100"],
-                 [failjure "2.2.0"]]
+                 [failjure "2.2.0"],
+                 [buddy/buddy-sign "1.1.0"]]
   :profiles {:prod {:resource-paths ["config/prod"]}
              :dev  {:resource-paths ["config/dev"]}}
   :main edn-config-test.core

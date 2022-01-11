@@ -49,7 +49,7 @@
 
 (defn  delete-user-by-id [request]
   (let [id (get-in request [:path-params :id])],
-      (deleteTicket id)
+      (delete-ticket id)
       (delete id)
       {:status  200
        :headers headerModified
