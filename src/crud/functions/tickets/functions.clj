@@ -1,25 +1,31 @@
 (ns crud.functions.tickets.functions
   (:use
     [crud.database.tickets.queries],
-    [crud.helpers.helpers]),
+    [crud.helpers.helpers],
+    [crud.functions.login.jwt]),
   (:require
     [clojure.data.json :as json],
     [clj-commons.digest :as digest],
     [config.core :refer [env]]))
 
 (defn make-ticket [request]
-  (let [nm (:json-params request)],
-    (let [idUser (nm :idUser)],
-      (let [idStatus (nm :idStatus)],
-        (let [title (nm :title)],
-          (let [description (nm :description)],
-            (make idUser idStatus title description)
-              (let [slug (get-id-to-slug [request])],
-                (let [idTicket  (get-in (slug 0) [:ticket/idTicket])]
-                  (insert-slug idTicket (make-slug title idTicket) )
-                  {:status  201
-                   :headers headerModified
-                   :body    (make-json {:msg "Cadastrado com Sucesso!"})}))))))))
+  (let [jwt (:headers request)]
+    (if (= (unsign-token (jwt "authorization"  ))true)
+      (let [nm (:json-params request)],
+        (let [idUser (nm :idUser)],
+          (let [idStatus (nm :idStatus)],
+            (let [title (nm :title)],
+              (let [description (nm :description)],
+                (make idUser idStatus title description)
+                  (let [slug (get-id-to-slug [request])],
+                    (let [idTicket  (get-in (slug 0) [:ticket/idTicket])]
+                      (insert-slug idTicket (make-slug title idTicket) )
+                      {:status  200
+                       :headers headerModified
+                       :body    (make-json {:msg "Cadastrado com Sucesso!"})})
+                      {:status  400
+                       :headers headerModified
+                       :body    (make-json {:msg "Login incorreto, por favor tente novamente!"})})))))))))
 
 (defn update-ticket [request]
   (let [nm (:json-params request)],
