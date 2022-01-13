@@ -7,5 +7,10 @@
 (defn generate-signature [idUser idProfile]
    (jwt/sign {:idUser idUser, :idProfile idProfile} secret))
 
+(defn validate-jwt [data]
+  (let [idUser (get-in data [:idUser])]
+     (if (= (nil? idUser) false) true false)))
+
 (defn unsign-token [token]
-  (jwt/unsign token secret))
+  (validate-jwt (jwt/unsign token secret)))
+

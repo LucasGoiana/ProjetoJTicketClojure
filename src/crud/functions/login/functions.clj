@@ -17,5 +17,8 @@
              :headers headerModified
              :body  (make-json {:jwt
                       (generate-signature (get-in userData  [:user/idUser])
-                        (get-in userData  [:user/idProfile]))})}))))))
+                        (get-in userData  [:user/idProfile]))})}
+            {:status  404
+             :headers headerModified
+             :body  (make-json {:msg "Usuário ou Senhas incorretos!"})}))))))
 
