@@ -1,5 +1,4 @@
 (ns crud.functions.login.jwt
-  (:use crud.functions.users.functions)
   (:require
     [buddy.sign.jwt :as jwt]))
 

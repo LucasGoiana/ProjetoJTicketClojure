@@ -6,16 +6,6 @@
   (:require
     [clojure.data.json :as json]))
 
-
-;(defn make-profile [request]
-;  (let [nm (:json-params request)],
-;    (let [name (nm :name)]
-;      (make name)
-;      {:status  201
-;       :headers headerModified
-;       :body    (make-json {:msg "Cadastrado com Sucesso!"})})))
-
-
 (defn make-profile [request]
   (let [jwt (:headers request)]
     (if (= (unsign-token (jwt "authorization"  ))true)
