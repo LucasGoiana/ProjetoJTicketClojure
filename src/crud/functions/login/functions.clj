@@ -13,12 +13,6 @@
       (let [password (digest/md5 (nm :password))]
         (let [userData (login email password)]
           (if (= (count userData)  2)
-            {:status  201
-             :headers headerModified
-             :body  (make-json {:jwt
-                      (generate-signature (get-in userData  [:user/idUser])
-                        (get-in userData  [:user/idProfile]))})}
-            {:status  404
-             :headers headerModified
-             :body  (make-json {:msg "Usuário ou Senhas incorretos!"})}))))))
+            (return 201  (make-json {:jwt (generate-signature (get-in userData  [:user/idUser]) (get-in userData  [:user/idProfile]))}))
+            (return 401 (make-json {:msg "Usuário ou senha incorretos!"}))))))))
 

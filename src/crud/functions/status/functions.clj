@@ -12,33 +12,19 @@
       (let [nm (:json-params request)],
         (let [name (nm :name)]
           (make name)
-          {:status  200
-           :headers headerModified
-           :body    (make-json {:msg "Cadastrado com Sucesso!"})})
-        {:status  400
-         :headers headerModified
-         :body    (make-json {:msg "Login incorreto, por favor tente novamente!"})}))))
+          (return 201  (make-json {:msg "Cadastrado com Sucesso!"}))))
+          (return 401  (make-json {:msg "Login incorreto, por favor tente novamente!"})))))
 
 (defn read-status [request]
   (let [jwt (:headers request)]
     (if (= (unsign-token (jwt "authorization"  ))true)
-      (let [response (readAll request)]
-        {:status  200
-         :headers headerModified
-         :body    (json/write-str response )})
-      {:status  400
-       :headers headerModified
-       :body    (make-json {:msg "Login incorreto, por favor tente novamente!"})})))
+      (let [response (readAll )]
+        (return 200 (json/write-str response)))
+        (return 401  (make-json {:msg "Login incorreto, por favor tente novamente!"})))))
 
 (defn read-status-by-id [request]
   (let [jwt (:headers request)]
     (if (= (unsign-token (jwt "authorization"  ))true)
       (let [response  (readById (get-in request [:path-params :id]))]
-        {:status  200
-         :headers headerModified
-         :body    (json/write-str response )})
-      {:status  400
-       :headers headerModified
-       :body    (make-json {:msg "Login incorreto, por favor tente novamente!"})})))
-
-
+        (return 200 (json/write-str response)))
+        (return 401  (make-json {:msg "Login incorreto, por favor tente novamente!"})))))
