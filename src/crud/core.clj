@@ -7,6 +7,10 @@
 
 (def routes (route/expand-routes generalRoutes))
 
+(System/getProperty "org.eclipse.jetty.util.log.class")
+(System/getProperty "org.eclipse.jetty.util.log.StdErrLog")
+(System/getProperty "org.eclipse.jetty.LEVEL", "OFF")
+(def server (atom nil))
 
 (def serviceMap
   (-> {::http/routes routes
@@ -16,4 +20,10 @@
       http/default-interceptors
       (update ::http/interceptors conj (body-params/body-params))))
 
-(http/start (http/create-server serviceMap))
+
+(defn start-server []
+  (reset! server  (http/start (http/create-server serviceMap))))
+
+(defn stop-server [] (http/stop @server))
+
+(start-server)

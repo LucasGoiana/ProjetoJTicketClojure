@@ -22,10 +22,14 @@
     { :slug slug }{:idTicket id }))
 
 ; Buscar Lista de Tickets
-(defn readAll [request] (read-as-local) (query/query ds ["SELECT t.idTicket, t.title, t.description,  DATE_FORMAT(t.modifiedDate, \"%Y-%m-%d %h:%s:%i\") modifiedDate, u.name user, s.name status FROM  ticket t INNER JOIN user u ON t.idUser = u.idUser INNER JOIN status s ON t.idStatus = s.idStatus "]))
+(defn readAll [] (read-as-local) (query/query ds ["SELECT t.idTicket, t.title, t.description,  DATE_FORMAT(t.modifiedDate, \"%Y-%m-%d %h:%s:%i\") modifiedDate, u.name user, s.name status FROM  ticket t INNER JOIN user u ON t.idUser = u.idUser INNER JOIN status s ON t.idStatus = s.idStatus "]))
 
 ; Buscar um Ticket pelo id
 (defn read-by-id [id]  (jdbc/execute-one! ds ["SELECT t.idTicket, t.title, t.description,  DATE_FORMAT(t.modifiedDate, \"%Y-%m-%d %h:%s:%i\") modifiedDate, u.name user, s.name status FROM  ticket t INNER JOIN user u ON t.idUser = u.idUser INNER JOIN status s ON t.idStatus = s.idStatus  WHERE t.idTicket = ?  " id]))
 
 ;Deletar Ticket pelo ID
 (defn delete [id]  (query/delete! ds :ticket { :idTicket id}))
+
+;Atualizar Ticket pelo ID
+(defn update-status-ticket-id [id idStatus]  (query/update! ds :ticket
+      {:idStatus idStatus }{:idTicket id }))

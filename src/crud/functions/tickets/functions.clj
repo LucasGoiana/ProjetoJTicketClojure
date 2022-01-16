@@ -20,12 +20,8 @@
                   (let [slug (get-id-to-slug [request])],
                     (let [idTicket  (get-in (slug 0) [:ticket/idTicket])]
                       (insert-slug idTicket (make-slug title idTicket) )
-                      {:status  200
-                       :headers headerModified
-                       :body    (make-json {:msg "Cadastrado com Sucesso!"})})))))))
-                      {:status  400
-                       :headers headerModified
-                       :body    (make-json {:msg "Login incorreto, por favor tente novamente!"})})))
+                      (return 201  (make-json {:msg "Cadastrado com Sucesso!"})))))))))
+                      (return 401 (make-json {:msg "Login incorreto, por favor tente novamente!"})))))
 
 (defn update-ticket [request]
   (let [jwt (:headers request)]
@@ -38,35 +34,32 @@
                 (let [description (nm :description)],
                   (let [slug (make-slug title id)],
                     (update-by-id id idUser idStatus title description slug)
-                    {:status  201
-                     :headers headerModified
-                     :body    (make-json {:msg "Editado com Sucesso!"})})))))))
-                    {:status  400
-                     :headers headerModified
-                     :body    (make-json {:msg "Login incorreto, por favor tente novamente!"})})))
+                    (return 201 (make-json {:msg "Editado com Sucesso!"})))))))))
+                    (return 401 (make-json {:msg "Login incorreto, por favor tente novamente!"})))))
+
+(defn  update-status-ticket [request]
+  (let [jwt (:headers request)]
+    (if (= (unsign-token (jwt "authorization"  ))true)
+      (let [id (get-in request [:path-params :id])],
+        (let [idStatus (get-in request [:path-params :id2])],
+       (update-status-ticket-id id idStatus)
+          (return 200 (make-json {:msg "Status do Ticket Atualizado!"}))))
+          (return 401 (make-json {:msg "Login incorreto, por favor tente novamente!"})))))
 
 (defn  read-tickets [request]
   (let [jwt (:headers request)]
     (if (= (unsign-token (jwt "authorization"  ))true)
-      (let [response (readAll [request])]
-        {:status  200
-         :headers headerModified
-         :body    (json/write-str response )})
-      {:status  400
-       :headers headerModified
-       :body    (make-json {:msg "Login incorreto, por favor tente novamente!"})})))
+      (let [response (readAll)]
+        (return 200 (json/write-str response)))
+        (return 401 (make-json {:msg "Login incorreto, por favor tente novamente!"})))))
 
 (defn  read-ticket-by-id [request]
   (let [jwt (:headers request)]
     (if (= (unsign-token (jwt "authorization"  ))true)
       (let [id (get-in request [:path-params :id])],
         (let [response  (read-by-id id)]
-          {:status  200
-           :headers headerModified
-           :body    (json/write-str response )}))
-          {:status  400
-           :headers headerModified
-           :body    (make-json {:msg "Login incorreto, por favor tente novamente!"})})))
+          (return 200 (json/write-str response))))
+          (return 401 (make-json {:msg "Login incorreto, por favor tente novamente!"})))))
 
 
 (defn  delete-ticket-by-id [request]
@@ -74,9 +67,5 @@
     (if (= (unsign-token (jwt "authorization"  ))true)
       (let [id (get-in request [:path-params :id])],
         (delete id)
-        {:status  200
-         :headers headerModified
-         :body    (make-json {:msg "Ticket foi deletado com Sucesso!"})})
-      {:status  400
-       :headers headerModified
-       :body    (make-json {:msg "Login incorreto, por favor tente novamente!"})})))
+        (return 200 (make-json {:msg "Ticket foi deletado com Sucesso!"})))
+        (return 401 (make-json {:msg "Login incorreto, por favor tente novamente!"})))))

@@ -11,7 +11,7 @@
 (defn make [name] (query/insert! ds :status {:name name}))
 
 ; Buscar Lista de Perfis
-(defn readAll [request] (read-as-local) (query/query ds ["select idStatus, name, DATE_FORMAT(modifiedDate, \"%Y-%m-%d %h:%s:%i\") modifiedDate from status"]))
+(defn readAll [] (read-as-local) (query/query ds ["select idStatus, name, DATE_FORMAT(modifiedDate, \"%Y-%m-%d %h:%s:%i\") modifiedDate from status"]))
 
 ; Buscar um perfil pelo id
 (defn readById [id]  (jdbc/execute-one! ds ["select idStatus, name, DATE_FORMAT(modifiedDate, \"%Y-%m-%d %h:%s:%i\") modifiedDate from status where idStatus = ?" id]))
