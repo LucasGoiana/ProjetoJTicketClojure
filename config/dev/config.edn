@@ -8,6 +8,6 @@
  :user-email "email@gmail.com"
  :pass-email "senha"
  :from-email "email@gmail.com"
- :to-email"lucasgoianam@hotmail.com"
+ :to-email "lucasgoianam@hotmail.com"
  :subject-email "ProjetoJTicket"
  }
