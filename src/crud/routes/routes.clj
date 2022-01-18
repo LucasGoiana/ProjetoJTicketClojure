@@ -27,7 +27,7 @@
       ;Rotas Pertinentes a Ticket
       ["/ticket" :post make-ticket :route-name :make-ticket],
       ["/ticket/:id" :put update-ticket :route-name :update-ticket],
-      ["/ticket/:id/status/:id2" :put update-status-ticket :route-name :update-status-ticket],
+      ["/ticket/:id/status/:idStatus" :put update-status-ticket :route-name :update-status-ticket],
       ["/ticket" :get read-tickets :route-name :read-tickets],
       ["/ticket/:id" :get read-ticket-by-id :route-name :read-ticket-by-id]
       ["/ticket/:id" :delete delete-ticket-by-id :route-name :delete-ticket-by-id]

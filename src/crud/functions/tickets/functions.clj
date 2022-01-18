@@ -2,7 +2,8 @@
   (:use
     [crud.database.tickets.queries],
     [crud.helpers.helpers],
-    [crud.functions.login.jwt]),
+    [crud.functions.login.jwt]
+    [crud.functions.email.sendEmail]),
   (:require
     [clojure.data.json :as json],
     [clj-commons.digest :as digest],
@@ -41,10 +42,14 @@
   (let [jwt (:headers request)]
     (if (= (unsign-token (jwt "authorization"  ))true)
       (let [id (get-in request [:path-params :id])],
-        (let [idStatus (get-in request [:path-params :id2])],
-       (update-status-ticket-id id idStatus)
-          (return 200 (make-json {:msg "Status do Ticket Atualizado!"}))))
-          (return 401 (make-json {:msg "Login incorreto, por favor tente novamente!"})))))
+        (let [idStatus (get-in request [:path-params :idStatus])],
+          (update-status-ticket-id id idStatus)
+          (let [idTicket (get-in (read-by-id id) [:ticket/idTicket]),
+               status (get-in (read-by-id id) [:status/status]),
+               nameTicket (get-in (read-by-id id) [:ticket/title])]
+                (sendEmail idTicket nameTicket status )
+                (return 200 (make-json {:msg "Status do Ticket Atualizado!"})))))
+                (return 401 (make-json {:msg "Login incorreto, por favor tente novamente!"})))))
 
 (defn  read-tickets [request]
   (let [jwt (:headers request)]

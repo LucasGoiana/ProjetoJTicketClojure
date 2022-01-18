@@ -3,5 +3,11 @@
  :db-name "ProjetoJTicket"
  :db-user "lucas"
  :db-password "123456"
-
+ :host-email "smtp.gmail.com"
+ :port-email 587
+ :user-email "email@gmail.com"
+ :pass-email "senha"
+ :from-email "email@gmail.com"
+ :to-email"lucasgoianam@hotmail.com"
+ :subject-email "ProjetoJTicket"
  }
