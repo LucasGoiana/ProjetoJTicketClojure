@@ -17,14 +17,14 @@
              (let [email (nm :email)],
                (let [quantityEmail  (get-in  (validate-email email) [:quantityEmail])],
                  (if (>= quantityEmail 1)
-                   (return 500 {:msg "Email já Cadastrado!"})
+                   (return 500 (make-json {:msg "Email já Cadastrado!"}))
                       (let [password (digest/md5 (nm :password)) ],
                         (make idProfile name email password )
                           (let [slug (get-id-to-slug request)],
-                           (let [idUsuario  (get-in (slug 0) [:usuario/idUsuario])]
-                            (insert-slug idUsuario (make-slug name idUsuario ))
-                              (return 201  (make-json {:msg "Cadastrado com Sucesso!"})))))))))))
-                              (return 401 (make-json {:msg "Login incorreto, por favor tente novamente!"})))))
+                            (let [idUsuario  (get-in (slug 0) [:user/idUser])]
+                              (insert-slug idUsuario (make-slug name idUsuario ))
+                                (return 201  (make-json {:msg "Cadastrado com Sucesso!"})))))))))))
+                                (return 401 (make-json {:msg "Login incorreto, por favor tente novamente!"})))))
 
 (defn update-user [request]
   (let [jwt (:headers request)]
