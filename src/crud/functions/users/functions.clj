@@ -35,7 +35,7 @@
             (let [email (nm :email)],
               (let [quantityEmail  (get-in  (validate-email email) [:quantityEmail])],
                 (if (>= quantityEmail 1)
-                  (return 500 {:msg "Email já Cadastrado!"})
+                  (return 500  (make-json{:msg "Email já Cadastrado!"}))
                     (let [password (digest/md5 (nm :password)) ],
                       (let [slug (make-slug name id)],
                         (update-by-id id name email password slug)
